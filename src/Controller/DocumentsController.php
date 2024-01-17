@@ -71,7 +71,8 @@ class DocumentsController extends AppController
 
         if ($this->request->is('post')) {
             $document = $this->Documents->patchEntity($document, $this->request->getData());
-            $coverPhotoFile = $this->requets->getData('cover_photo');
+            //traitement de l'upload de la photo de couverture
+            $coverPhotoFile = $this->request->getData('cover_photo');
             if (!empty($coverPhotoFile)) {
                 $coverPhoto = new \stdClass();
                 $coverPhoto->file_path = $this->uploadCoverPhoto($coverPhotoFile);
@@ -105,7 +106,7 @@ class DocumentsController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $document = $this->Documents->patchEntity($document, $this->request->getData());
-            $coverPhotoFile = $this->requets->getData('cover_photo');
+            $coverPhotoFile = $this->request->getData('cover_photo');
             if (!empty($coverPhotoFile)) {
                 $coverPhoto = new \stdClass();
                 $coverPhoto->file_path = $this->uploadCoverPhoto($coverPhotoFile);
@@ -161,11 +162,13 @@ class DocumentsController extends AppController
     public function uploadCoverphoto($coverPhoto)
     {
         $this->Authorization->SkipAuthorization();
-        if($this->request->is(['patch', 'post', 'put'])) {
+        //vérifie si une image a été soumise via le formulaire
+        if($this->request->is('post')) {
             $document = $this->Documents->get($this->request->getData('document_id'));
             $coverphoto = $this->request->getData('coverphoto');
+            //vérifie si l
             $fileName = $coverphoto->getClientFilename();
-            $targetpath = WWW_ROOT . 'uploads' . 'DS' . 'cover_photo' . DS;
+            $targetpath = WWW_ROOT . 'uploads' . 'DS' . 'cover_photos' . DS;
             $coverPhoto->moveTo($targetpath . $fileName);
 
             $document->coverphoto = $fileName;

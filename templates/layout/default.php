@@ -85,19 +85,19 @@
                             </li>
                             <li class="nav-item dropdown"><a class="nav-link dropdown-toggle dropdown-indicator" href="JavaScript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">Utilisateur</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="http://localhost/my_biblio/users/list">list users</a></li>
-                                    <li><a class="dropdown-item" href="http://localhost/my_biblio/roles">role</a></li>
+                                    <li><a class="dropdown-item" href="http://localhost/biblioth-que/users/list">list users</a></li>
+                                    <li><a class="dropdown-item" href="http://localhost/biblioth-que/roles">role</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown"><a class="nav-link dropdown-toggle dropdown-indicator" href="JavaScript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">Document</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="http://localhost/my_biblio/documents">documents</a></li>
-                                    <li><a class="dropdown-item" href="http://localhost/my_biblio/topics">topics</a></li>
-                                    <li><a class="dropdown-item" href="http://localhost/my_biblio/documenttypes">documenttypes</a></li>
-                                    <li><a class="dropdown-item" href="http://localhost/my_biblio/documentcategories">document_categories</a></li>
+                                    <li><a class="dropdown-item" href="http://localhost/biblioth-que/documents">documents</a></li>
+                                    <li><a class="dropdown-item" href="http://localhost/biblioth-que/topics">topics</a></li>
+                                    <li><a class="dropdown-item" href="http://localhost/biblioth-que/documenttypes">documenttypes</a></li>
+                                    <li><a class="dropdown-item" href="http://localhost/biblioth-que/documentcategories">document_categories</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item"><a class="nav-link  " href="http://localhost/my_biblio/contact" role="button" aria-expanded="false">Contact</a>
+                            <li class="nav-item"><a class="nav-link  " href="http://localhost/biblioth-que/contact" role="button" aria-expanded="false">Contact</a>
                             </li>
                         </ul>
                         </div>

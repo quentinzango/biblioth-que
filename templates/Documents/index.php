@@ -12,7 +12,7 @@
     <?= $this->Form->control('key',['label'=>'search', 'value'=>$this->request->getquery('key')]) ?>
     <?= $this->Form->submit() ?>
     <?= $this->Form->end() ?>
-    
+
     <div class="table-responsive">
         <table>
             <thead>
@@ -23,6 +23,7 @@
                     <th><?= $this->Paginator->sort('title') ?></th>
                     <th><?= $this->Paginator->sort('author') ?></th>
                     <th><?= $this->Paginator->sort('editor') ?></th>
+                    <th><?= $this->Paginator->sort('cover_photo') ?></th>
                     <th><?= $this->Paginator->sort('slug') ?></th>
                     <th><?= $this->Paginator->sort('published') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
@@ -40,6 +41,7 @@
                     <td><?= h($document->title) ?></td>
                     <td><?= h($document->author) ?></td>
                     <td><?= h($document->editor) ?></td>
+                    <td><?= h($document->cover_photo) ?></td>
                     <td><?= h($document->slug) ?></td>
                     <td><?= h($document->published) ?></td>
                     <td><?= h($document->created) ?></td>

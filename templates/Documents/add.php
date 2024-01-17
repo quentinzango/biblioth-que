@@ -24,6 +24,7 @@
                     echo $this->Form->control('title');
                     echo $this->Form->control('author');
                     echo $this->Form->control('editor');
+                    echo $this->Form->control('cover_photo');
                     echo $this->Form->control('slug');
                     echo $this->Form->control('description');
                     echo $this->Form->control('published', ['type' => 'checkbox']);
