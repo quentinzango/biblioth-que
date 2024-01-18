@@ -39,6 +39,10 @@
                     <td><?= h($document->editor) ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('cover_photo') ?></th>
+                    <td><img src="<?= h($document->cover_photo) ?>" alt="photo de couverture"></td>
+                </tr>
+                <tr>
                     <th><?= __('Slug') ?></th>
                     <td><?= h($document->slug) ?></td>
                 </tr>

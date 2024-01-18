@@ -15,7 +15,7 @@
     </aside>
     <div class="column-responsive column-80">
         <div class="documents form content">
-            <?= $this->Form->create($document) ?>
+            <?= $this->Form->create($document, ['type' => 'file', 'url'=> '/Documents/uploadCoverphoto']) ?>
             <fieldset>
                 <legend><?= __('Add Document') ?></legend>
                 <?php
@@ -24,7 +24,7 @@
                     echo $this->Form->control('title');
                     echo $this->Form->control('author');
                     echo $this->Form->control('editor');
-                    echo $this->Form->control('cover_photo');
+                    echo $this->Form->control('cover_photo', ['type' => 'file']);
                     echo $this->Form->control('slug');
                     echo $this->Form->control('description');
                     echo $this->Form->control('published', ['type' => 'checkbox']);

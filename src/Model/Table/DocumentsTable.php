@@ -70,9 +70,9 @@ class DocumentsTable extends Table
         $this->hasMany('ReaderDocuments', [
             'foreignKey' => 'document_id',
         ]);
-        $this->hasOne('CoverPhotos', [
+       
 
-        ]);
+       
 
     }
 
@@ -111,6 +111,19 @@ class DocumentsTable extends Table
             ->notEmptyString('editor');
 
         $validator
+            ->allowEmptyFile('cover_photo')
+            ->add('cover_photo' , [
+                'mimeType' => [
+                    'rule' => ['mimeType' , ['cover_photo/jpg', 'cover_photo/png','cover_photo/jpeg']],
+                    'message' => 'please upload only jpg and pnj.',
+                ],
+                'fileSize' => [
+                    'rule' => ['fileSize', '<=', '1MB'],
+                    'message' => 'cover_photo size must be less than 1MB.',
+                ],
+            ]);
+
+        $validator
             ->scalar('slug')
             ->maxLength('slug', 191)
             ->requirePresence('slug', 'create')
@@ -131,6 +144,8 @@ class DocumentsTable extends Table
             ->boolean('deleted')
             ->requirePresence('deleted', 'create')
             ->notEmptyString('deleted');
+
+
 
         return $validator;
     }

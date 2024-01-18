@@ -41,7 +41,7 @@
                     <td><?= h($document->title) ?></td>
                     <td><?= h($document->author) ?></td>
                     <td><?= h($document->editor) ?></td>
-                    <td><?= h($document->cover_photo) ?></td>
+                    <td><?= $this->Html->cover_photo('cover_photo') ?></td>
                     <td><?= h($document->slug) ?></td>
                     <td><?= h($document->published) ?></td>
                     <td><?= h($document->created) ?></td>

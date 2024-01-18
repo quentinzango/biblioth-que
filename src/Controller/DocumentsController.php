@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Http\Exception\NotFoundException;
+use Cake\Controller\ControllerInterface;
+use Cake\Http\File;
+use Cake\Http\ServerRequest;
+use Psr\Http\Message\UploadedFileInterface;
 
 /**
  * Documents Controller
@@ -49,13 +53,12 @@ class DocumentsController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($slug = null)
+    public function view($id)
     {
         $this->Authorization->SkipAuthorization();
-        $document = $this->Documents->get($slug, [
+        $document = $this->Documents->get($id, [
             'contain' => ['Users', 'DocumentCategories', 'DocumentComments', 'DocumentTopics', 'ReaderDocuments'],
         ]);
-        $document = $this->Documents->findBySlug($slug)->firstOrFail();
         $this->set(compact('document'));
     }
 
@@ -70,26 +73,32 @@ class DocumentsController extends AppController
         $document = $this->Documents->newEmptyEntity();
 
         if ($this->request->is('post')) {
+
             $document = $this->Documents->patchEntity($document, $this->request->getData());
             //traitement de l'upload de la photo de couverture
             $coverPhotoFile = $this->request->getData('cover_photo');
             if (!empty($coverPhotoFile)) {
-                $coverPhoto = new \stdClass();
-                $coverPhoto->file_path = $this->uploadCoverPhoto($coverPhotoFile);
 
-                $document->cover_photo = $coverPhoto;
+                //associer la photo de couverture au document
+                $document->cover_photo = $this->uploadCoverPhoto($coverPhotoFile);
+            } else{
+
+
+
             }
+
             if ($this->Documents->save($document)) {
                 $this->Flash->success(__('The document has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The document could not be saved. Please, try again.'));
-        }
+         }
         $users = $this->Documents->Users->find('list', ['limit' => 200])->all();
         $documentCategories = $this->Documents->DocumentCategories->find('list', ['limit' => 200])->all();
         $this->set(compact('document', 'users', 'documentCategories'));
-    }
+     }
+
 
     /**
      * Edit method
@@ -98,7 +107,7 @@ class DocumentsController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id)
+     public function edit($id = null)
     {
         $this->Authorization->SkipAuthorization();
         $document = $this->Documents->get($id, [
@@ -106,12 +115,16 @@ class DocumentsController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $document = $this->Documents->patchEntity($document, $this->request->getData());
+            //traitement de l'upload de la photo de couverture
             $coverPhotoFile = $this->request->getData('cover_photo');
             if (!empty($coverPhotoFile)) {
-                $coverPhoto = new \stdClass();
-                $coverPhoto->file_path = $this->uploadCoverPhoto($coverPhotoFile);
-                $document->cover_photo = $coverPhoto;
-            }
+                     //associer la photo de couverture au document
+                $document->cover_photo = $this->uploadCoverPhoto($coverPhotoFile);
+            } else{
+
+
+                }
+
             if ($this->Documents->save($document)) {
                 $this->Flash->success(__('The document has been saved.'));
 
@@ -131,11 +144,11 @@ class DocumentsController extends AppController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($slug)
+    public function delete($id)
     {
         $this->Authorization->SkipAuthorization();
         $this->request->allowMethod(['post', 'delete']);
-        $document = $this->Documents->get($slug);
+        $document = $this->Documents->get($id);
         if ($this->Documents->delete($document)) {
             $this->Flash->success(__('The document has been deleted.'));
         } else {
@@ -158,26 +171,13 @@ class DocumentsController extends AppController
 
         return $this->response;
     }
-
-    public function uploadCoverphoto($coverPhoto)
+    public function uploadCoverphoto(UploadedFileInterface $coverphoto):string
     {
-        $this->Authorization->SkipAuthorization();
-        //vérifie si une image a été soumise via le formulaire
-        if($this->request->is('post')) {
-            $document = $this->Documents->get($this->request->getData('document_id'));
-            $coverphoto = $this->request->getData('coverphoto');
-            //vérifie si l
-            $fileName = $coverphoto->getClientFilename();
-            $targetpath = WWW_ROOT . 'uploads' . 'DS' . 'cover_photos' . DS;
-            $coverPhoto->moveTo($targetpath . $fileName);
+        $fileName = $coverphoto->getClientFilename();
+        $targetpath = WWW_ROOT . 'uploads' . DS . 'coverphotos' . DS.$fileName;
+        $coverPhoto->moveTo($targetpath);
 
-            $document->coverphoto = $fileName;
-            if($this->Documents->save($document)){
-                $this->Flash->success(__('la photo de couvrture a été téléchargée.'));
-                return $this->redirect((['action' => 'view', $document->idt]));
-            }else{
-                $this->Flash->error(__('Une erreur s\'est produite lors du téléchargement de la photo de couverture.'));
-            }
-                }
+        return $fileName;
     }
+
 }
