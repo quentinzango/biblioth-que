@@ -8,7 +8,10 @@ use Cake\Http\Exception\NotFoundException;
 use Cake\Controller\ControllerInterface;
 use Cake\Http\File;
 use Cake\Http\ServerRequest;
-use Psr\Http\Message\UploadedFileInterface;
+use cake\Http\ServerRequestFactory;
+use Cake\Http\UploadedFileInterface;
+use Laminas\Diactoros\UploadedFile;
+use Psr\Http\Message\UploadedFileInterface as MessageUploadedFileInterface;
 
 /**
  * Documents Controller
@@ -18,6 +21,8 @@ use Psr\Http\Message\UploadedFileInterface;
  */
 class DocumentsController extends AppController
 {
+
+
     /**
      * Index method
      *
@@ -82,11 +87,10 @@ class DocumentsController extends AppController
                 //associer la photo de couverture au document
                 $document->cover_photo = $this->uploadCoverPhoto($coverPhotoFile);
             } else{
-
-
+                $this->Flash->success(__('une erreur est survenue. s\'il vous plait veuillez recommencer'));
+                return $this->redirect(['action' => 'add']);
 
             }
-
             if ($this->Documents->save($document)) {
                 $this->Flash->success(__('The document has been saved.'));
 
@@ -121,9 +125,14 @@ class DocumentsController extends AppController
                      //associer la photo de couverture au document
                 $document->cover_photo = $this->uploadCoverPhoto($coverPhotoFile);
             } else{
+                $this->Flash->success(__('une erreur est survenue. s\'il vous plait veuillez recommencer'));
+                return $this->redirect(['action' => 'edit']);
 
+            }
+            $exemplarydocumentFile = $this->request->getData('exemplary_document');
+            if (!empty($exemplarydocumentFile)) {
 
-                }
+            }
 
             if ($this->Documents->save($document)) {
                 $this->Flash->success(__('The document has been saved.'));
@@ -158,24 +167,24 @@ class DocumentsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function download($id)
+    public function download($exemplarydocuments)
     {
-        $this->Authorization->SkipAuthorization();
-        $document = $this->Documents->get($id);
-
-        $filepath = WWW_ROOT . 'uploads' . 'DS' . $document->slug;
-        $this->response = $this->response->withFile(
-            $filepath,
-            ['download' => true, 'name' => $document->file_name]
-        );
-
-        return $this->response;
+        $fileName = $exemplarydocuments->getClientFilename();
+        $targetpath = WWW_ROOT . 'uploads' . DS . 'exemplarydocuments' . DS.$fileName;
+        $exemplarydocuments->moveTo($targetpath);
+        return $fileName;
     }
-    public function uploadCoverphoto(UploadedFileInterface $coverphoto):string
+
+    /**
+     * @param UploadedFileInterface $coverphoto
+     * @return string
+     */
+    public function uploadCoverphoto(UploadedFile $coverphoto):string
     {
+
         $fileName = $coverphoto->getClientFilename();
         $targetpath = WWW_ROOT . 'uploads' . DS . 'coverphotos' . DS.$fileName;
-        $coverPhoto->moveTo($targetpath);
+        $coverphoto->moveTo($targetpath);
 
         return $fileName;
     }

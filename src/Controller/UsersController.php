@@ -245,7 +245,7 @@ class UsersController extends AppController
             $mailer
                 ->setTo($email)
                 ->setSubject('Réinitialisation du mot de pass')
-                ->deliver('http://localhost/biblioth-que/users/newpassword',[$user]);
+                ->deliver('http://localhost/biblioth-que/users/newpassword' );
             $this->Flash->success('Un email de réinitialisation du mot de passe a été envoyé a votre adresse e-mail.');
             return $this->redirect(['action'=>'login']);
         }
@@ -275,8 +275,9 @@ class UsersController extends AppController
 
             }
             $this->set(compact('user'));
+            }
         }
     }
 
 }
-}
+

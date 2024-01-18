@@ -24,7 +24,7 @@
             <fieldset>
                 <legend><?= __('Edit Document') ?></legend>
                 <?php
-                    echo $this->Form->control('user_id', ['options' => $users]);
+                     echo $this->Form->control('user_id',['option' => $users]);
                     echo $this->Form->control('document_categorie_id', ['options' => $documentCategories]);
                     echo $this->Form->control('title');
                     echo $this->Form->control('author');

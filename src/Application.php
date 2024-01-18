@@ -41,6 +41,7 @@ use Authorization\AuthorizationServiceProviderInterface;
 use Authorization\Middleware\AuthorizationMiddleware;
 use Authorization\Policy\OrmResolver;
 use Psr\Http\Message\ResponseInterface;
+use cake\Http\ServerRequestFactory;
 
 /**
  * Application setup class.
@@ -51,6 +52,7 @@ use Psr\Http\Message\ResponseInterface;
 class Application extends BaseApplication implements
     AuthenticationServiceProviderInterface,
     AuthorizationServiceProviderInterface
+
 
 
 {
