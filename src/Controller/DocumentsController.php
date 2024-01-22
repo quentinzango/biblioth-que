@@ -29,7 +29,8 @@ class DocumentsController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      */
 
-    public function affich($id){
+    public function affich($id)
+    {
         $this->Authorization->SkipAuthorization();
         $document = $this->Documents->get($id, [
             'contain' => ['Users', 'DocumentCategories', 'DocumentComments', 'DocumentTopics', 'ReaderDocuments'],
@@ -84,36 +85,40 @@ class DocumentsController extends AppController
         if ($this->request->is('post')) {
 
             $document = $this->Documents->patchEntity($document, $this->request->getData());
+            $document->user_id = $this->getRequest()->getSession()->read('Auth.User.id');
+
             //traitement de l'upload de la photo de couverture
             $coverPhotoFile = $this->request->getData('cover_photo');
             if (!empty($coverPhotoFile)) {
 
                 //associer la photo de couverture au document
                 $document->cover_photo = $this->uploadCoverPhoto($coverPhotoFile);
-            } else{
+            } else {
                 $this->Flash->success(__('la photo de couverture n\'a pas été ajouter'));
                 return $this->redirect(['action' => 'add']);
-
             }
+            
+            //traitement de l'upload du document
             $exemplarydocumentFile = $this->request->getData('exemplary_document');
             if (!empty($exemplarydocumentFile)) {
                 //associer l'exemplaire du document
-                $document->exemplary_document = $this->download($exemplarydocumentFile);
-            } else{
+                $document->exemplary_document = $this->uploadDocument($exemplarydocumentFile);
+            } else {
                 $this->Flash->success(__('l\'exemplaire du document n\'a pas été ajouter'));
                 return $this->redirect(['action' => 'add']);
             }
+
             if ($this->Documents->save($document)) {
                 $this->Flash->success(__('The document has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The document could not be saved. Please, try again.'));
-         }
+        }
         $users = $this->Documents->Users->find('list', ['limit' => 200])->all();
         $documentCategories = $this->Documents->DocumentCategories->find('list', ['limit' => 200])->all();
         $this->set(compact('document', 'users', 'documentCategories'));
-     }
+    }
 
 
     /**
@@ -123,7 +128,7 @@ class DocumentsController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-     public function edit($id = null)
+    public function edit($id = null)
     {
         $this->Authorization->SkipAuthorization();
         $document = $this->Documents->get($id, [
@@ -132,18 +137,16 @@ class DocumentsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $document = $this->Documents->patchEntity($document, $this->request->getData());
             //traitement de l'upload de la photo de couverture
-
+            $coverPhotoFile = $this->request->getData('cover_photo');
             if (!empty($coverPhotoFile)) {
-                     //associer la photo de couverture au document
+                //associer la photo de couverture au document
                 $document->cover_photo = $this->uploadCoverPhoto($coverPhotoFile);
-            } else{
+            } else {
                 $this->Flash->success(__('la photo de couverture n\'a pas été ajouter'));
                 return $this->redirect(['action' => 'edit']);
-
             }
             $exemplarydocumentFile = $this->request->getData('exemplary_document');
             if (!empty($exemplarydocumentFile)) {
-
             }
 
             if ($this->Documents->save($document)) {
@@ -180,14 +183,14 @@ class DocumentsController extends AppController
     }
 
     /**
-    * @param UploadedFileInterface $exemplarydocument
-    * @return string
-    */
-    public function download(UploadedFile $exemplarydocument):string
+     * @param UploadedFileInterface $exemplarydocument
+     * @return string
+     */
+    public function uploadDocument(UploadedFile $exemplarydocument): string
     {
         $fileName = $exemplarydocument->getClientFilename();
-        $targetpath = WWW_ROOT . 'uploads' . DS . 'exemplarydocuments' . DS.$fileName;
-        $exemplarydocument->moveTo($targetpath . $fileName);
+        $path = WWW_ROOT . 'uploads' . DS . 'exemplarydocuments' . DS . $fileName;
+        $exemplarydocument->moveTo($path);
         return $fileName;
     }
 
@@ -195,14 +198,13 @@ class DocumentsController extends AppController
      * @param UploadedFileInterface $coverphoto
      * @return string
      */
-    public function uploadCoverphoto(UploadedFile $coverphoto):string
+    public function uploadCoverphoto(UploadedFile $coverphoto): string
     {
 
         $fileName = $coverphoto->getClientFilename();
-        $targetpath = WWW_ROOT . 'uploads' . DS . 'coverphotos' . DS.$fileName;
+        $targetpath = WWW_ROOT . 'uploads' . DS . 'coverphotos' . DS . $fileName;
         $coverphoto->moveTo($targetpath);
 
         return $fileName;
     }
-
 }

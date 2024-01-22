@@ -64,7 +64,7 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id= null)
+    public function view($id = null)
     {
         $user = $this->Users->get($id, [
             'contain' => ['Roles', 'DocumentComments', 'Documents', 'ReaderDocuments'],
@@ -144,7 +144,7 @@ class UsersController extends AppController
     {
         parent::beforeFilter($event);
 
-        $this->Authentication->allowUnauthenticated(['newpassword','resetpassword','forgotpassword','registration', 'login', 'add', 'index']);
+        $this->Authentication->allowUnauthenticated(['newpassword', 'resetpassword', 'forgotpassword', 'registration', 'login', 'add', 'index']);
     }
 
     public function login()
@@ -224,16 +224,17 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'list']);
     }
 
-    public function resetpassword(){
+    public function resetpassword()
+    {
         $this->Authorization->SkipAuthorization();
-        if ($this->request->is('post')){
+        if ($this->request->is('post')) {
             $email = $this->request->getData('email');
             //vérifier si l'utilisatuer existe avec cette adresse e-mail
             $user  = $this->Users->find()
                 ->where(['email' => $email])->first();
-            if(!$user){
+            if (!$user) {
                 $this->Flash->error('Adresse e-mail invalide.');
-                return $this->redirect(['action'=> 'resetpassword']);
+                return $this->redirect(['action' => 'resetpassword']);
             }
             //généré un token unique
             $token = Security::randomString(32);
@@ -247,43 +248,42 @@ class UsersController extends AppController
             $mailer
                 ->setTo($email)
                 ->setSubject('Réinitialisation du mot de pass')
-                ->deliver('Cliquez sur le lien suivant pour réinitialiser votre mot de passe : ' .$resetUrl);
+                ->deliver('Cliquez sur le lien suivant pour réinitialiser votre mot de passe : ' . $resetUrl);
             $this->Flash->success('Un email de réinitialisation du mot de passe a été envoyé a votre adresse e-mail.');
-            return $this->redirect(['action'=>'login']);
+            return $this->redirect(['action' => 'login']);
         }
     }
 
-    public function newpassword($token){
+    public function newpassword($token)
+    {
         $this->Authorization->SkipAuthorization();
         //vérifier si le token est valide et n'a pa expiré
-        $user = $this->Users->find('all')
-        ->where(['token' => $token])->first();
-            if(!$user){
-                $this->Flash->error('Ce lien de réinitialisation du mot de passe est invalide ou a expiré.');
+        $user = $this->Users->find('all', ['conditions' => ['token' => $token]])->first();
+        
+        
+        
+
+        
+        if (empty($user)) {
+            $this->Flash->error('Ce lien de réinitialisation du mot de passe est invalide ou a expiré.');
+            return $this->redirect(['action' => 'login']);
+        }
+
+        //vérifiez si le formulaire de réinitialisation du mot de passe a été soumis
+        if ($this->request->is('post')) {
+            //Valider et sauvegarder le nouveau mot de passe
+            $newpassword = $this->request->getData('new_password');
+            $user->password = $newpassword;
+            $user->token = null;
+            $user->token_expiration = null;
+            if ($this->Users->save($user)) {
+                $this->Flash->success('votre mot de passe a été mis a jour avec succès.');
+                return $this->redirect(['action' => 'login']);
+            } else {
+                $this->Flash->error('une erreur s\'est produit lors de la mise a jour de votre mot de passe.Veuillez réessayer.');
                 return $this->redirect(['action' => 'login']);
             }
-
-            //vérifiez si le formulaire de réinitialisation du mot de passe a été soumis
-            if($this->request->is('post')){
-                //Valider et sauvegarder le nouveau mot de passe
-                $newpassword = $this->request->getData('new_password');
-                   $user->password = $newpassword;
-                   $user->token = null;
-                   $user->token_expiration = null;
-                   if($this->Users->save($user)){
-                    $this->Flash->success('votre mot de passe a été mis a jour avec succès.');
-                    return $this->redirect(['action' => 'login']);
-                   }else{
-                    $this->Flash->error('une erreur s\'est produit lors de la mise a jour de votre mot de passe.Veuillez réessayer.');
-                    return $this->redirect(['action' => 'login']);
-            }
             $this->set(compact('user'));
-            }
+        }
     }
 }
-
-
-
-
-
-

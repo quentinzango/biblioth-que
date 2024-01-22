@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Document $document
@@ -80,92 +81,92 @@
             <div class="related">
                 <h4><?= __('Related Document Comments') ?></h4>
                 <?php if (!empty($document->document_comments)) : ?>
-                <div class="table-responsive">
-                    <table>
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('User Id') ?></th>
-                            <th><?= __('Document Id') ?></th>
-                            <th><?= __('Comment') ?></th>
-                            <th><?= __('Created') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($document->document_comments as $documentComments) : ?>
-                        <tr>
-                            <td><?= h($documentComments->id) ?></td>
-                            <td><?= h($documentComments->user_id) ?></td>
-                            <td><?= h($documentComments->document_id) ?></td>
-                            <td><?= h($documentComments->comment) ?></td>
-                            <td><?= h($documentComments->created) ?></td>
-                            <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'DocumentComments', 'action' => 'view', $documentComments->id]) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'DocumentComments', 'action' => 'edit', $documentComments->id]) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'DocumentComments', 'action' => 'delete', $documentComments->id], ['confirm' => __('Are you sure you want to delete # {0}?', $documentComments->id)]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
+                    <div class="table-responsive">
+                        <table>
+                            <tr>
+                                <th><?= __('Id') ?></th>
+                                <th><?= __('User Id') ?></th>
+                                <th><?= __('Document Id') ?></th>
+                                <th><?= __('Comment') ?></th>
+                                <th><?= __('Created') ?></th>
+                                <th class="actions"><?= __('Actions') ?></th>
+                            </tr>
+                            <?php foreach ($document->document_comments as $documentComments) : ?>
+                                <tr>
+                                    <td><?= h($documentComments->id) ?></td>
+                                    <td><?= h($documentComments->user_id) ?></td>
+                                    <td><?= h($documentComments->document_id) ?></td>
+                                    <td><?= h($documentComments->comment) ?></td>
+                                    <td><?= h($documentComments->created) ?></td>
+                                    <td class="actions">
+                                        <?= $this->Html->link(__('View'), ['controller' => 'DocumentComments', 'action' => 'view', $documentComments->id]) ?>
+                                        <?= $this->Html->link(__('Edit'), ['controller' => 'DocumentComments', 'action' => 'edit', $documentComments->id]) ?>
+                                        <?= $this->Form->postLink(__('Delete'), ['controller' => 'DocumentComments', 'action' => 'delete', $documentComments->id], ['confirm' => __('Are you sure you want to delete # {0}?', $documentComments->id)]) ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </table>
+                    </div>
                 <?php endif; ?>
             </div>
             <div class="related">
                 <h4><?= __('Related Document Topics') ?></h4>
                 <?php if (!empty($document->document_topics)) : ?>
-                <div class="table-responsive">
-                    <table>
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Document Id') ?></th>
-                            <th><?= __('Topic Id') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($document->document_topics as $documentTopics) : ?>
-                        <tr>
-                            <td><?= h($documentTopics->id) ?></td>
-                            <td><?= h($documentTopics->document_id) ?></td>
-                            <td><?= h($documentTopics->topic_id) ?></td>
-                            <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'DocumentTopics', 'action' => 'view', $documentTopics->id]) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'DocumentTopics', 'action' => 'edit', $documentTopics->id]) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'DocumentTopics', 'action' => 'delete', $documentTopics->id], ['confirm' => __('Are you sure you want to delete # {0}?', $documentTopics->id)]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
+                    <div class="table-responsive">
+                        <table>
+                            <tr>
+                                <th><?= __('Id') ?></th>
+                                <th><?= __('Document Id') ?></th>
+                                <th><?= __('Topic Id') ?></th>
+                                <th class="actions"><?= __('Actions') ?></th>
+                            </tr>
+                            <?php foreach ($document->document_topics as $documentTopics) : ?>
+                                <tr>
+                                    <td><?= h($documentTopics->id) ?></td>
+                                    <td><?= h($documentTopics->document_id) ?></td>
+                                    <td><?= h($documentTopics->topic_id) ?></td>
+                                    <td class="actions">
+                                        <?= $this->Html->link(__('View'), ['controller' => 'DocumentTopics', 'action' => 'view', $documentTopics->id]) ?>
+                                        <?= $this->Html->link(__('Edit'), ['controller' => 'DocumentTopics', 'action' => 'edit', $documentTopics->id]) ?>
+                                        <?= $this->Form->postLink(__('Delete'), ['controller' => 'DocumentTopics', 'action' => 'delete', $documentTopics->id], ['confirm' => __('Are you sure you want to delete # {0}?', $documentTopics->id)]) ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </table>
+                    </div>
                 <?php endif; ?>
             </div>
             <div class="related">
                 <h4><?= __('Related Reader Documents') ?></h4>
                 <?php if (!empty($document->reader_documents)) : ?>
-                <div class="table-responsive">
-                    <table>
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('User Id') ?></th>
-                            <th><?= __('Document Id') ?></th>
-                            <th><?= __('Nomber Download') ?></th>
-                            <th><?= __('Created') ?></th>
-                            <th><?= __('Modified') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($document->reader_documents as $readerDocuments) : ?>
-                        <tr>
-                            <td><?= h($readerDocuments->id) ?></td>
-                            <td><?= h($readerDocuments->user_id) ?></td>
-                            <td><?= h($readerDocuments->document_id) ?></td>
-                            <td><?= h($readerDocuments->nomber_download) ?></td>
-                            <td><?= h($readerDocuments->created) ?></td>
-                            <td><?= h($readerDocuments->modified) ?></td>
-                            <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'ReaderDocuments', 'action' => 'view', $readerDocuments->id]) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'ReaderDocuments', 'action' => 'edit', $readerDocuments->id]) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'ReaderDocuments', 'action' => 'delete', $readerDocuments->id], ['confirm' => __('Are you sure you want to delete # {0}?', $readerDocuments->id)]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
+                    <div class="table-responsive">
+                        <table>
+                            <tr>
+                                <th><?= __('Id') ?></th>
+                                <th><?= __('User Id') ?></th>
+                                <th><?= __('Document Id') ?></th>
+                                <th><?= __('Nomber Download') ?></th>
+                                <th><?= __('Created') ?></th>
+                                <th><?= __('Modified') ?></th>
+                                <th class="actions"><?= __('Actions') ?></th>
+                            </tr>
+                            <?php foreach ($document->reader_documents as $readerDocuments) : ?>
+                                <tr>
+                                    <td><?= h($readerDocuments->id) ?></td>
+                                    <td><?= h($readerDocuments->user_id) ?></td>
+                                    <td><?= h($readerDocuments->document_id) ?></td>
+                                    <td><?= h($readerDocuments->nomber_download) ?></td>
+                                    <td><?= h($readerDocuments->created) ?></td>
+                                    <td><?= h($readerDocuments->modified) ?></td>
+                                    <td class="actions">
+                                        <?= $this->Html->link(__('View'), ['controller' => 'ReaderDocuments', 'action' => 'view', $readerDocuments->id]) ?>
+                                        <?= $this->Html->link(__('Edit'), ['controller' => 'ReaderDocuments', 'action' => 'edit', $readerDocuments->id]) ?>
+                                        <?= $this->Form->postLink(__('Delete'), ['controller' => 'ReaderDocuments', 'action' => 'delete', $readerDocuments->id], ['confirm' => __('Are you sure you want to delete # {0}?', $readerDocuments->id)]) ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </table>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>

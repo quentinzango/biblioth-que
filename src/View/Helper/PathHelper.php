@@ -19,7 +19,7 @@ class PathHelper extends Helper
     protected $_defaultConfig = [];
 
     public function getBaseUrl(){
-        return "http://" . $_SERVER["HTTP_HOST"] . "/my_biblio/";
+        return "http://" . $_SERVER["HTTP_HOST"] . "/biblioth-que/";
     }
 
     public function getTemplatePath(){

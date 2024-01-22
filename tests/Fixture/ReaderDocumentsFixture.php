@@ -23,8 +23,8 @@ class ReaderDocumentsFixture extends TestFixture
                 'user_id' => 1,
                 'document_id' => 1,
                 'nomber_download' => 1,
-                'created' => '2023-12-14 09:04:02',
-                'modified' => '2023-12-14 09:04:02',
+                'created' => '2024-01-22 12:17:16',
+                'modified' => '2024-01-22 12:17:16',
             ],
         ];
         parent::init();

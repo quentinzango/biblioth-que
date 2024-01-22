@@ -21,6 +21,7 @@ use Authentication\IdentityInterface;
  * @property bool|null $deleted
  * @property string|null $token
  * @property int $token_expiration
+ * @property string $newpassword
  *
  * @property \App\Model\Entity\Role $role
  * @property \App\Model\Entity\DocumentComment[] $document_comments

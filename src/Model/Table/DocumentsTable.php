@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -70,10 +71,6 @@ class DocumentsTable extends Table
         $this->hasMany('ReaderDocuments', [
             'foreignKey' => 'document_id',
         ]);
-
-
-
-
     }
 
     /**
@@ -112,9 +109,9 @@ class DocumentsTable extends Table
 
         $validator
             ->allowEmptyFile('cover_photo')
-            ->add('cover_photo' , [
+            ->add('cover_photo', [
                 'mimeType' => [
-                    'rule' => ['mimeType' , ['cover_photo/jpg', 'cover_photo/png','cover_photo/jpeg']],
+                    'rule' => ['mimeType', ['cover_photo/jpg', 'cover_photo/png', 'cover_photo/jpeg']],
                     'message' => 'please upload only jpg and pnj.',
                 ],
                 'fileSize' => [
@@ -123,18 +120,8 @@ class DocumentsTable extends Table
                 ],
             ]);
 
-            $validator
-            ->allowEmptyFile('xemplary_document')
-            ->add('xemplary_document' , [
-                'mimeType' => [
-                    'rule' => ['mimeType' , ['xemplary_document/pdf', 'xemplary_document/png','xemplary_document/jpeg']],
-                    'message' => 'please upload only pdf and pnj.',
-                ],
-                'fileSize' => [
-                    'rule' => ['fileSize', '<=', '100MB'],
-                    'message' => 'cxemplary_document size must be less than 1MB.',
-                ],
-            ]);
+        $validator
+            ->allowEmptyFile('exemplary_document');
 
         $validator
             ->scalar('slug')
@@ -181,15 +168,16 @@ class DocumentsTable extends Table
 
     public function beforeSave($event, $entity, $options)
     {
-    if ($entity->isNew() && !$entity->slug) {
-        $sluggedTitle = Text::slug($entity->title);
-        // On ne garde que le nombre de caractère correspondant à la longueur
-        // maximum définie dans notre schéma
-        $entity->slug = substr($sluggedTitle, 0, 191);
-    }
+        if ($entity->isNew() && !$entity->slug) {
+            $sluggedTitle = Text::slug($entity->title);
+            // On ne garde que le nombre de caractère correspondant à la longueur
+            // maximum définie dans notre schéma
+            $entity->slug = substr($sluggedTitle, 0, 191);
+        }
     }
 
-    public function search($key){
-        return $this->find()->where(['title LIKE'=>'%'. $key.'%'])->all();
+    public function search($key)
+    {
+        return $this->find()->where(['title LIKE' => '%' . $key . '%'])->all();
     }
 }

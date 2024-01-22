@@ -12,8 +12,10 @@
         <p><?= h($document->description)  ?></p>
 
         <!--affichageb de la photo de couverture -->
-        <?php if (!empty($document->cover_photo)) : ?>
-            <img src='<?= $this->Path->getTemplatePath() ?><? ('uploads/coverphotos/' . $document->cover_photo) ?>'alt="photo de couverture">
-        <?php endif; ?>
+        <?php if (!empty($document->cover_photo)) { ?>
+            <img src='<?= $this->Path->getBaseUrl() . 'uploads/coverphotos/' . $document->cover_photo ?>'alt="photo de couverture">
+            <?php }else { ?>
+                <img src='<?= $this->Path->getBaseUrl() . 'uploads/coverphotos/defaut.jpg' . $document->cover_photo ?>'alt="photo de couverture">
+        <?php } ?>
     </div>
 </div>
