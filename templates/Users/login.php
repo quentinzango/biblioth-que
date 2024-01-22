@@ -7,6 +7,6 @@
     </fieldset>
     <?= $this->Form->button(__('Login')); ?>
     <?= $this->Form->end() ?>
-    <?= $this->Html->link("Ajouter un utilisateur", ['action' => 'add']) ?>
+    <?= $this->Html->link("Crée un compte", ['action' => 'registration']) ?>
     <?= $this->Html->link("Mot de pass oublié ?", ['action' => 'resetpassword'],['class' => ' float-right'])?>
 </div>

@@ -24,6 +24,7 @@
                     <th><?= $this->Paginator->sort('author') ?></th>
                     <th><?= $this->Paginator->sort('editor') ?></th>
                     <th><?= $this->Paginator->sort('cover_photo') ?></th>
+                    <th><?= $this->Paginator->sort('exemplary_document') ?></th>
                     <th><?= $this->Paginator->sort('slug') ?></th>
                     <th><?= $this->Paginator->sort('published') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
@@ -41,7 +42,8 @@
                     <td><?= h($document->title) ?></td>
                     <td><?= h($document->author) ?></td>
                     <td><?= h($document->editor) ?></td>
-                    <td><?= $this->Html->cover_photo('cover_photo') ?></td>
+                    <td><?= h($document->cover_photo) ?></td>
+                    <td><?= h($document->exemplary_document) ?></td>
                     <td><?= h($document->slug) ?></td>
                     <td><?= h($document->published) ?></td>
                     <td><?= h($document->created) ?></td>

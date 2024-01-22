@@ -56,16 +56,6 @@ class Document extends Entity
         'document_topics' => true,
         'reader_documents' => true,
         'cover_photo' => true,
+        'exemplary_document' => true,
     ];
-
-    protected $_virtual = [
-        'cover_photo_url',
-    ];
-
-    protected function _getcoverphotoUrl(){
-        if($this->cover_photo){
-            return '\uploads\covers_photos' . $this->cover_photo->file_path;
-        }
-        return null;
-    }
 }

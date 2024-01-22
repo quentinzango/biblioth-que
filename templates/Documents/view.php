@@ -40,7 +40,11 @@
                 </tr>
                 <tr>
                     <th><?= __('cover_photo') ?></th>
-                    <td><img src="<?= h($document->cover_photo) ?>" alt="photo de couverture"></td>
+                    <td><?= h($document->cover_photo) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('exemplary_document') ?></th>
+                    <td><?= h($document->exemplary_document) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Slug') ?></th>

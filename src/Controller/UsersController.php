@@ -10,6 +10,7 @@ use cake\Controller\Controller;
 use cake\Utility\Security;
 use cake\Mailer\Mailer;
 use cake\Utility\Text;
+use cake\Mailer\Message;
 
 /**
  * Users Controller
@@ -165,8 +166,8 @@ class UsersController extends AppController
                 ]);
             } else {
                 $redirect = $this->request->getQuery('redirect', [
-                    'controller' => 'Users',
-                    'action' => 'read',
+                    'controller' => 'Documents',
+                    'action' => 'affich',
                 ]);
             }
             return $this->redirect($redirect);
@@ -240,12 +241,13 @@ class UsersController extends AppController
             $user->token = $token;
             $user->token_expiration = date('Y-m-d H:i:s', strtotime('+1hour'));
             $this->Users->save($user);
+            $resetUrl = 'http://localhost/biblioth-que/users/newpassword?token=' . $token;
             $mailer = new Mailer('default');
             //Envoyer un e-mail avec le lien de réinitialisation du mot de passe
             $mailer
                 ->setTo($email)
                 ->setSubject('Réinitialisation du mot de pass')
-                ->deliver('http://localhost/biblioth-que/users/newpassword' );
+                ->deliver('Cliquez sur le lien suivant pour réinitialiser votre mot de passe : ' .$resetUrl);
             $this->Flash->success('Un email de réinitialisation du mot de passe a été envoyé a votre adresse e-mail.');
             return $this->redirect(['action'=>'login']);
         }
@@ -254,30 +256,34 @@ class UsersController extends AppController
     public function newpassword($token){
         $this->Authorization->SkipAuthorization();
         //vérifier si le token est valide et n'a pa expiré
-        $user  = $this->Users->find()
-            ->where(['token' => $token])->first();
+        $user = $this->Users->find('all')
+        ->where(['token' => $token])->first();
             if(!$user){
                 $this->Flash->error('Ce lien de réinitialisation du mot de passe est invalide ou a expiré.');
                 return $this->redirect(['action' => 'login']);
             }
+
+            //vérifiez si le formulaire de réinitialisation du mot de passe a été soumis
             if($this->request->is('post')){
                 //Valider et sauvegarder le nouveau mot de passe
                 $newpassword = $this->request->getData('new_password');
-                $confirmpassword = $this->request->getData('confirm_password');
-                if($newpassword === $confirmpassword){
-                   $user->token= null;
+                   $user->password = $newpassword;
+                   $user->token = null;
                    $user->token_expiration = null;
                    if($this->Users->save($user)){
                     $this->Flash->success('votre mot de passe a été mis a jour avec succès.');
                     return $this->redirect(['action' => 'login']);
                    }else{
                     $this->Flash->error('une erreur s\'est produit lors de la mise a jour de votre mot de passe.Veuillez réessayer.');
-
+                    return $this->redirect(['action' => 'login']);
             }
             $this->set(compact('user'));
             }
-        }
     }
-
 }
+
+
+
+
+
 

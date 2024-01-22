@@ -70,9 +70,9 @@ class DocumentsTable extends Table
         $this->hasMany('ReaderDocuments', [
             'foreignKey' => 'document_id',
         ]);
-       
 
-       
+
+
 
     }
 
@@ -120,6 +120,19 @@ class DocumentsTable extends Table
                 'fileSize' => [
                     'rule' => ['fileSize', '<=', '1MB'],
                     'message' => 'cover_photo size must be less than 1MB.',
+                ],
+            ]);
+
+            $validator
+            ->allowEmptyFile('xemplary_document')
+            ->add('xemplary_document' , [
+                'mimeType' => [
+                    'rule' => ['mimeType' , ['xemplary_document/pdf', 'xemplary_document/png','xemplary_document/jpeg']],
+                    'message' => 'please upload only pdf and pnj.',
+                ],
+                'fileSize' => [
+                    'rule' => ['fileSize', '<=', '100MB'],
+                    'message' => 'cxemplary_document size must be less than 1MB.',
                 ],
             ]);
 

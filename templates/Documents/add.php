@@ -25,6 +25,7 @@
                     echo $this->Form->control('author');
                     echo $this->Form->control('editor');
                     echo $this->Form->control('cover_photo', ['type' => 'file']);
+                    echo $this->Form->control('exemplary_document', ['type' => 'file']);
                     echo $this->Form->control('slug');
                     echo $this->Form->control('description');
                     echo $this->Form->control('published', ['type' => 'checkbox']);

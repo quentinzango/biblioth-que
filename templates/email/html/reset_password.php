@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF_8">
-        <title>le lien de réinitialisation</title>
-    </head>
-    <body>
-        <a href="<?=$link?>"><?=$link?></a>
-    </body>
-</html>
+<?= $this->Html->link('Réinitialiser le mot de passe',
+['controlleer' => 'Users','action' => 'newpassword',$token],
+['_full' =>true]
+) ?>

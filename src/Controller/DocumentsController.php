@@ -29,8 +29,12 @@ class DocumentsController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      */
 
-    public function affich(){
+    public function affich($id){
         $this->Authorization->SkipAuthorization();
+        $document = $this->Documents->get($id, [
+            'contain' => ['Users', 'DocumentCategories', 'DocumentComments', 'DocumentTopics', 'ReaderDocuments'],
+        ]);
+        $this->set(compact('document'));
     }
 
     public function index()
@@ -87,9 +91,17 @@ class DocumentsController extends AppController
                 //associer la photo de couverture au document
                 $document->cover_photo = $this->uploadCoverPhoto($coverPhotoFile);
             } else{
-                $this->Flash->success(__('une erreur est survenue. s\'il vous plait veuillez recommencer'));
+                $this->Flash->success(__('la photo de couverture n\'a pas été ajouter'));
                 return $this->redirect(['action' => 'add']);
 
+            }
+            $exemplarydocumentFile = $this->request->getData('exemplary_document');
+            if (!empty($exemplarydocumentFile)) {
+                //associer l'exemplaire du document
+                $document->exemplary_document = $this->download($exemplarydocumentFile);
+            } else{
+                $this->Flash->success(__('l\'exemplaire du document n\'a pas été ajouter'));
+                return $this->redirect(['action' => 'add']);
             }
             if ($this->Documents->save($document)) {
                 $this->Flash->success(__('The document has been saved.'));
@@ -120,12 +132,12 @@ class DocumentsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $document = $this->Documents->patchEntity($document, $this->request->getData());
             //traitement de l'upload de la photo de couverture
-            $coverPhotoFile = $this->request->getData('cover_photo');
+
             if (!empty($coverPhotoFile)) {
                      //associer la photo de couverture au document
                 $document->cover_photo = $this->uploadCoverPhoto($coverPhotoFile);
             } else{
-                $this->Flash->success(__('une erreur est survenue. s\'il vous plait veuillez recommencer'));
+                $this->Flash->success(__('la photo de couverture n\'a pas été ajouter'));
                 return $this->redirect(['action' => 'edit']);
 
             }
@@ -167,11 +179,15 @@ class DocumentsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function download($exemplarydocuments)
+    /**
+    * @param UploadedFileInterface $exemplarydocument
+    * @return string
+    */
+    public function download(UploadedFile $exemplarydocument):string
     {
-        $fileName = $exemplarydocuments->getClientFilename();
+        $fileName = $exemplarydocument->getClientFilename();
         $targetpath = WWW_ROOT . 'uploads' . DS . 'exemplarydocuments' . DS.$fileName;
-        $exemplarydocuments->moveTo($targetpath);
+        $exemplarydocument->moveTo($targetpath . $fileName);
         return $fileName;
     }
 

@@ -65,7 +65,7 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/topic', ['controller' => 'Topics', 'action' => 'index', 'index']);
         $builder->connect('/documentcategorie', ['controller' => 'Documentcategories', 'action' => 'index', 'index']);
         $builder->connect('/document', ['controller' => 'Documents', 'action' => 'index', 'index']);
-        $builder->connect('/newpassword' , ['controller' => 'Users', 'action' => 'newpassword', 'newpassword']);
+        $builder->connect('/users/newpassword/*' , ['controller' => 'Users', 'action' => 'newpassword', 'newpassword']);
 
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
