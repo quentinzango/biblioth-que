@@ -65,6 +65,7 @@ return [
             'templates' => [ROOT . DS . 'templates' . DS],
             'locales' => [RESOURCES . 'locales' . DS],
           'imageBaseUrl' => '/uploads/coverphotos',
+          'imageBaseUrl' => '/uploads/exemplarydocuments',
         ],
     ],
 

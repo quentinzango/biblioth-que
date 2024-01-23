@@ -167,7 +167,7 @@ class UsersController extends AppController
             } else {
                 $redirect = $this->request->getQuery('redirect', [
                     'controller' => 'Documents',
-                    'action' => 'affich',
+                    'action' => 'index',
                 ]);
             }
             return $this->redirect($redirect);
@@ -242,7 +242,7 @@ class UsersController extends AppController
             $user->token = $token;
             $user->token_expiration = date('Y-m-d H:i:s', strtotime('+1hour'));
             $this->Users->save($user);
-            $resetUrl = 'http://localhost/biblioth-que/users/newpassword?token=' . $token;
+            $resetUrl = 'http://localhost/biblioth-que/users/newpassword/' . $token;
             $mailer = new Mailer('default');
             //Envoyer un e-mail avec le lien de réinitialisation du mot de passe
             $mailer
@@ -259,11 +259,6 @@ class UsersController extends AppController
         $this->Authorization->SkipAuthorization();
         //vérifier si le token est valide et n'a pa expiré
         $user = $this->Users->find('all', ['conditions' => ['token' => $token]])->first();
-        
-        
-        
-
-        
         if (empty($user)) {
             $this->Flash->error('Ce lien de réinitialisation du mot de passe est invalide ou a expiré.');
             return $this->redirect(['action' => 'login']);
@@ -272,8 +267,10 @@ class UsersController extends AppController
         //vérifiez si le formulaire de réinitialisation du mot de passe a été soumis
         if ($this->request->is('post')) {
             //Valider et sauvegarder le nouveau mot de passe
-            $newpassword = $this->request->getData('new_password');
+            $newpassword = $this->request->getData('newpassword');
+            if(isset($newpassword) && strlen($newpassword) > 0){
             $user->password = $newpassword;
+            }
             $user->token = null;
             $user->token_expiration = null;
             if ($this->Users->save($user)) {

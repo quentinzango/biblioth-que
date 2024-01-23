@@ -14,6 +14,8 @@ use Cake\ORM\Entity;
  * @property string $title
  * @property string $author
  * @property string $editor
+ * @property string $cover_photo
+ * @property string $exemplary_document
  * @property string $slug
  * @property string $description
  * @property bool $published

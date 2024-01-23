@@ -97,7 +97,7 @@ class DocumentsController extends AppController
                 $this->Flash->success(__('la photo de couverture n\'a pas été ajouter'));
                 return $this->redirect(['action' => 'add']);
             }
-            
+
             //traitement de l'upload du document
             $exemplarydocumentFile = $this->request->getData('exemplary_document');
             if (!empty($exemplarydocumentFile)) {
@@ -107,7 +107,7 @@ class DocumentsController extends AppController
                 $this->Flash->success(__('l\'exemplaire du document n\'a pas été ajouter'));
                 return $this->redirect(['action' => 'add']);
             }
-
+            dd($document);
             if ($this->Documents->save($document)) {
                 $this->Flash->success(__('The document has been saved.'));
 
@@ -183,28 +183,26 @@ class DocumentsController extends AppController
     }
 
     /**
-     * @param UploadedFileInterface $exemplarydocument
-     * @return string
-     */
-    public function uploadDocument(UploadedFile $exemplarydocument): string
+* @param UploadedFile $exemplarydocument
+* @return string
+*/
+    private function uploadDocument(UploadedFile $exemplarydocument) : string
     {
         $fileName = $exemplarydocument->getClientFilename();
-        $path = WWW_ROOT . 'uploads' . DS . 'exemplarydocuments' . DS . $fileName;
-        $exemplarydocument->moveTo($path);
+        $targetpath = WWW_ROOT . 'uploads' . DS . 'exemplarydocuments' . DS . $fileName;
+        $exemplarydocument->moveTo($targetpath);
         return $fileName;
     }
 
     /**
-     * @param UploadedFileInterface $coverphoto
-     * @return string
-     */
-    public function uploadCoverphoto(UploadedFile $coverphoto): string
+ * @param UploadedFile $coverphoto
+ * @return string
+ */
+    private function uploadCoverphoto(UploadedFile $coverphoto) : string
     {
-
         $fileName = $coverphoto->getClientFilename();
         $targetpath = WWW_ROOT . 'uploads' . DS . 'coverphotos' . DS . $fileName;
         $coverphoto->moveTo($targetpath);
-
         return $fileName;
     }
 }

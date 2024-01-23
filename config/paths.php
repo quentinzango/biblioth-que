@@ -63,7 +63,7 @@ define('TESTS', ROOT . DS . 'tests' . DS);
 /*
  * Path to the temporary files directory.
  */
-define('TMP', ROOT . DS . 'tmp' . DS);
+define('TMP', ROOT . DS . 'tmp' . DS . 'uploads' . DS);
 
 /*
  * Path to the logs directory.
