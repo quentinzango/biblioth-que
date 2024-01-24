@@ -41,10 +41,10 @@ class DocumentsController extends AppController
     public function index()
     {
         $this->Authorization->SkipAuthorization();
+
         $key = $this->request->getQuery('key');
         if ($key) {
-            $query  = $this->Documents->find('all')
-                ->where(['Or' => ['titre like' => '%' . $key . '%', 'author like' => '%' . $key . '%']]);
+            $query  = $this->Documents->findBytitle($key);
         } else {
             $query = $this->Documents;
         }
@@ -53,7 +53,7 @@ class DocumentsController extends AppController
         ];
         $documents = $this->Paginator->paginate($this->Documents->find());
 
-        $this->set(compact('documents', 'key'));
+        $this->set(compact('documents','key'));
     }
 
     /**
@@ -85,10 +85,11 @@ class DocumentsController extends AppController
         if ($this->request->is('post')) {
 
             $document = $this->Documents->patchEntity($document, $this->request->getData());
-            $document->user_id = $this->getRequest()->getSession()->read('Auth.User.id');
+
 
             //traitement de l'upload de la photo de couverture
             $coverPhotoFile = $this->request->getData('cover_photo');
+
             if (!empty($coverPhotoFile)) {
 
                 //associer la photo de couverture au document
@@ -99,15 +100,16 @@ class DocumentsController extends AppController
             }
 
             //traitement de l'upload du document
-            $exemplarydocumentFile = $this->request->getData('exemplary_document');
-            if (!empty($exemplarydocumentFile)) {
+            $exemplaryDocumentFile = $this->request->getData('exemplary_document');
+
+            if (!empty($exemplaryDocumentFile)) {
                 //associer l'exemplaire du document
-                $document->exemplary_document = $this->uploadDocument($exemplarydocumentFile);
+                $document->exemplary_document = $this->uploadDocument($exemplaryDocumentFile);
             } else {
                 $this->Flash->success(__('l\'exemplaire du document n\'a pas été ajouter'));
                 return $this->redirect(['action' => 'add']);
             }
-            dd($document);
+
             if ($this->Documents->save($document)) {
                 $this->Flash->success(__('The document has been saved.'));
 
@@ -147,6 +149,10 @@ class DocumentsController extends AppController
             }
             $exemplarydocumentFile = $this->request->getData('exemplary_document');
             if (!empty($exemplarydocumentFile)) {
+                $document->exemplary_document = $this->uploadDocument($exemplarydocumentFile);
+            } else {
+                $this->Flash->success(__('l\'exemplaire du document n\'a pas été ajouter'));
+                return $this->redirect(['action' => 'add']);
             }
 
             if ($this->Documents->save($document)) {
@@ -182,27 +188,28 @@ class DocumentsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    /**
-* @param UploadedFile $exemplarydocument
-* @return string
-*/
-    private function uploadDocument(UploadedFile $exemplarydocument) : string
-    {
-        $fileName = $exemplarydocument->getClientFilename();
-        $targetpath = WWW_ROOT . 'uploads' . DS . 'exemplarydocuments' . DS . $fileName;
-        $exemplarydocument->moveTo($targetpath);
-        return $fileName;
-    }
 
     /**
- * @param UploadedFile $coverphoto
- * @return string
- */
-    private function uploadCoverphoto(UploadedFile $coverphoto) : string
+     * @param UploadedFile $coverphoto
+     * @return string
+     */
+    private function uploadCoverphoto(UploadedFile $coverphoto): string
     {
         $fileName = $coverphoto->getClientFilename();
         $targetpath = WWW_ROOT . 'uploads' . DS . 'coverphotos' . DS . $fileName;
         $coverphoto->moveTo($targetpath);
+        return $fileName;
+    }
+
+    /**
+     * @param UploadedFile $exemplarydocument
+     * @return string
+     */
+    private function uploadDocument(UploadedFile $exemplarydocument): string
+    {
+        $fileName = $exemplarydocument->getClientFilename();
+        $targetpath = WWW_ROOT . 'uploads' . DS . 'exemplarydocuments' . DS . $fileName;
+        $exemplarydocument->moveTo($targetpath);
         return $fileName;
     }
 }

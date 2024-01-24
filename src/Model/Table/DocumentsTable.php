@@ -108,10 +108,30 @@ class DocumentsTable extends Table
             ->notEmptyString('editor');
 
         $validator
-            ->allowEmptyFile('cover_photo');
+            ->allowEmptyFile('cover_photo')
+            ->add('cover_photo', [
+                'mimeType' => [
+                    'rule' => ['mimeType', ['cover_photo/png'], ['cover_photo/jpg'], ['cover_photo/jpeg']],
+                    'message' => 'please upload only pdf.',
+                ],
+                'fileSize' => [
+                    'rule' => ['fileSize', '<=', '1MB'],
+                    'message' => 'cover_photo size must be less than 1MB.',
+                ],
+            ]);
 
         $validator
-            ->allowEmptyFile('exemplary_document');
+            ->allowEmptyFile('exemplary_document')
+            ->add('exemplary_document', [
+                'mimeType' => [
+                    'rule' => ['mimeType', ['exemplary_document/pdf']],
+                    'message' => 'please upload only pdf.',
+                ],
+                'fileSize' => [
+                    'rule' => ['fileSize', '<=', '30MB'],
+                    'message' => 'exemplary_document size must be less than 30MB.',
+                ],
+            ]);
 
         $validator
             ->scalar('slug')
@@ -165,7 +185,6 @@ class DocumentsTable extends Table
             $entity->slug = substr($sluggedTitle, 0, 191);
         }
     }
-
     public function search($key)
     {
         return $this->find()->where(['title LIKE' => '%' . $key . '%'])->all();

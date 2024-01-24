@@ -18,6 +18,7 @@ class RolesController extends AppController
      */
     public function index()
     {
+        $this->Authorization->SkipAuthorization();
         $roles = $this->paginate($this->Roles);
 
         $this->set(compact('roles'));

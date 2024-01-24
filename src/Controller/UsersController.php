@@ -36,14 +36,18 @@ class UsersController extends AppController
     {
         $this->Authorization->SkipAuthorization();
     }
+    
+    public function about()
+    {
+        $this->Authorization->SkipAuthorization();
+    }
 
     public function list()
     {
         $this->Authorization->SkipAuthorization();
         $key = $this->request->getQuery('key');
         if ($key) {
-            $query  = $this->Users->find('all')
-                ->where(['Or' => ['name like' => '%' . $key . '%', 'email like' => '%' . $key . '%']]);
+            $query  = $this->Users->findBynameorEmail($key, $key);
         } else {
             $query = $this->Users;
         }
@@ -268,8 +272,8 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             //Valider et sauvegarder le nouveau mot de passe
             $newpassword = $this->request->getData('newpassword');
-            if(isset($newpassword) && strlen($newpassword) > 0){
-            $user->password = $newpassword;
+            if (isset($newpassword) && strlen($newpassword) > 0) {
+                $user->password = $newpassword;
             }
             $user->token = null;
             $user->token_expiration = null;

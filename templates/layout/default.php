@@ -81,7 +81,7 @@
                         <ul class="navbar-nav py-3 py-lg-0 mt-1 mb-2 my-lg-0 ms-lg-n1">
                             <li class="nav-item active "><a class="nav-link  " href="index.html" role="button" data-bs-toggle="" aria-expanded="false">Accueil</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link " href="A propos.html" role="button" aria-expanded="false">A propos</a>
+                            <li class="nav-item"><a class="nav-link " href="http://localhost/biblioth-que/users/about" role="button" aria-expanded="false">A propos</a>
                             </li>
                             <li class="nav-item dropdown"><a class="nav-link dropdown-toggle dropdown-indicator" href="JavaScript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">Utilisateur</a>
                                 <ul class="dropdown-menu">
