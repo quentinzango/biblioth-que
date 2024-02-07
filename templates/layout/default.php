@@ -56,7 +56,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&amp;display=swap" rel="stylesheet">
     <link href="<?= $this->Path->getTemplatePath() ?>assets/fonts/all.css" rel="stylesheet" />
-    <link rel="stylesheet" href="<?= $this->Path->getTemplatePath() ?>webroot/css/all.css" />
+    <link rel="stylesheet" href="css/all.css" />
     <?= $this->Html->css(['normalize.min', 'milligram.min', 'fonts', 'cake']) ?>
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -80,7 +80,7 @@
                     </button>
                     <div class="collapse navbar-collapse" id="menu">
                         <ul class="navbar-nav py-3 py-lg-0 mt-1 mb-2 my-lg-0 ms-lg-n1">
-                        <li class="nav-item active "><a class="nav-link  " href="index.html" role="button" data-bs-toggle="" aria-expanded="false">Accueil</a>
+                        <li class="nav-item active "><a class="nav-link  " href="index.html" role="button" data-bs-toggle="" aria-expanded="false">Accueill</a>
                             </li>
                             <li class="nav-item"><a class="nav-link " href="http://localhost/biblioth-que/users/about" role="button" aria-expanded="false">A propos</a>
                             </li>
@@ -167,22 +167,13 @@
                 <div class="col-md-4 col-lg-3 col-xl-3 mx-auto-4">
                     <h5 class="text-uppercase mb-4 font-weight-bold text-warning">CONTACT</h5>
                     <p>
-                    <i class="far fa-envelope">
-
-                        </i>
+                    <i class="fa-sharp fa-solid fa-envelope">quentinzango470@gmail.com</i>
                     </p>
                     <p>
-                    <i class="far fa-phone" >
-
-
-                            
-                        </i>
+                    <i class="fa-sharp fa-solid fa-phone">+237 692485776</i>
                     </p>
                     <p>
-                    <i class="fa fa-phone" aria-hidden="true">
-
-                            +237 651745244
-                        </i>
+                    <i class="fa-sharp fa-solid fa-phone">+237 651745244</i>
                     </p>
                 </div>
             </div>
