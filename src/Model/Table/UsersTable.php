@@ -126,8 +126,6 @@ class UsersTable extends Table
         return $rules;
     }
 
-    public function search($key){
-        return $this->find()->where(['name LIKE'=>'%'. $key.'%'])->all();
-    }
+    
 
 }

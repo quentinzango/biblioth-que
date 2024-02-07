@@ -25,12 +25,6 @@
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label><br/>
-                <div class="col-sm-10">
-                  <input type="password" class="form-control" placeholder="password" id="inputPassword3">
-                </div>
-              </div>
-              <div class="row mb-3">
                 <label for="inputtext3" class="col-sm-2 col-form-label">Message</label><br/>
                 <div class="col-sm-10">
                   <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>

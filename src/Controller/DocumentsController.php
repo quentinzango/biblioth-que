@@ -29,7 +29,7 @@ class DocumentsController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      */
 
-    public function affich($id)
+    public function view($id)
     {
         $this->Authorization->SkipAuthorization();
         $document = $this->Documents->get($id, [
@@ -44,26 +44,26 @@ class DocumentsController extends AppController
 
         $key = $this->request->getQuery('key');
         if ($key) {
-            $query  = $this->Documents->findBytitle($key);
+            $query  = $this->Documents->findByTitle($key);
         } else {
             $query = $this->Documents;
         }
         $this->paginate = [
             'contain' => ['Users', 'DocumentCategories'],
         ];
-        $documents = $this->Paginator->paginate($this->Documents->find());
+        $documents = $this->paginate($query);
 
-        $this->set(compact('documents','key'));
+        $this->set(compact('documents'));
     }
 
     /**
      * View method
-     *
+     
      * @param string|null $id Document id.
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id)
+    public function affich($id)
     {
         $this->Authorization->SkipAuthorization();
         $document = $this->Documents->get($id, [

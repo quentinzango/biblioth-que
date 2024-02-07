@@ -185,8 +185,5 @@ class DocumentsTable extends Table
             $entity->slug = substr($sluggedTitle, 0, 191);
         }
     }
-    public function search($key)
-    {
-        return $this->find()->where(['title LIKE' => '%' . $key . '%'])->all();
-    }
+    
 }

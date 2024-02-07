@@ -19,9 +19,6 @@
                     echo $this->Form->control('name');
                     echo $this->Form->control('email');
                     echo $this->Form->control('password');
-                    echo $this->Form->control('status');
-                    echo $this->Form->control('deleted');
-                    echo $this->Form->control('token');
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

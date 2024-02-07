@@ -11,6 +11,8 @@ use cake\Utility\Security;
 use cake\Mailer\Mailer;
 use cake\Utility\Text;
 use cake\Mailer\Message;
+use Cake\Validation\Validator;
+use PhpParser\Node\Expr\Cast\Bool_;
 
 /**
  * Users Controller
@@ -36,7 +38,7 @@ class UsersController extends AppController
     {
         $this->Authorization->SkipAuthorization();
     }
-    
+
     public function about()
     {
         $this->Authorization->SkipAuthorization();
@@ -47,14 +49,14 @@ class UsersController extends AppController
         $this->Authorization->SkipAuthorization();
         $key = $this->request->getQuery('key');
         if ($key) {
-            $query  = $this->Users->findBynameorEmail($key, $key);
+            $query  = $this->Users->findByName($key);
         } else {
             $query = $this->Users;
         }
         $this->paginate = [
             'contain' => ['Roles'],
         ];
-        $users = $this->Paginator->paginate($this->Users->find());
+        $users = $this->paginate($query);
 
         $this->set(compact('users'));
     }
@@ -108,6 +110,7 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
+        $this->Authorization->SkipAuthorization();
         $user = $this->Users->get($id, [
             'contain' => [],
         ]);
@@ -210,7 +213,32 @@ class UsersController extends AppController
     public function contact()
     {
         $this->Authorization->SkipAuthorization();
+        if($this->request->is('post')){
+            $data = $this->request->getData();
+                        //envoi de l'email
+                        $mailer= new mailer('default');
+                        $mailer->setTo('quentinzango470@gmail.com')
+                        ->setSubject('nouveau message de biblio')
+                        ->setEmailFormat('html')
+                        ->setViewVars($data)
+                        ->viewBuilder()
+                        ->setTemplate('contact')
+                        ->setLayout('contact');
+
+
+                        if ($mailer->send()) {
+                            $this->Flash->success('Votre message a été envoyé avec succès');
+                            return $this->redirect(['action' => 'contact']);
+                        } else {
+                            $this->Flash->error('Une erreur s\'est produite lors de l\'envoi du message');
+                        }
+                        } else {
+                            $this->Flash->error('Veuillez corriger les erreurs dans le formulaire');
+                        }
     }
+
+
+
 
     public function userStatus($id = null, $status)
     {
