@@ -174,7 +174,7 @@ class UsersController extends AppController
             } else {
                 $redirect = $this->request->getQuery('redirect', [
                     'controller' => 'Documents',
-                    'action' => 'index',
+                    'action' => 'views',
                 ]);
             }
             return $this->redirect($redirect);

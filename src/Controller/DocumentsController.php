@@ -38,6 +38,14 @@ class DocumentsController extends AppController
         $this->set(compact('document'));
     }
 
+    public function views()
+{
+    $this->Authorization->SkipAuthorization();
+    $documents = $this->Documents->find('all');
+    $this->set(compact('documents'));
+
+}
+
     public function index()
     {
         $this->Authorization->SkipAuthorization();
@@ -58,7 +66,7 @@ class DocumentsController extends AppController
 
     /**
      * View method
-     
+
      * @param string|null $id Document id.
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
