@@ -56,7 +56,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&amp;display=swap" rel="stylesheet">
     <link href="<?= $this->Path->getTemplatePath() ?>assets/fonts/all.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/all.css" />
+    <link rel="stylesheet" href="<?= $this->Path->getTemplatePath() ?>css/all.css" />
+    
+
     <?= $this->Html->css(['normalize.min', 'milligram.min', 'fonts', 'cake']) ?>
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
