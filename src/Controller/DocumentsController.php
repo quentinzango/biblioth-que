@@ -22,7 +22,6 @@ use Psr\Http\Message\UploadedFileInterface as MessageUploadedFileInterface;
 class DocumentsController extends AppController
 {
 
-
     /**
      * Index method
      *
@@ -39,12 +38,11 @@ class DocumentsController extends AppController
     }
 
     public function views()
-{
-    $this->Authorization->SkipAuthorization();
-    $documents = $this->Documents->find('all');
-    $this->set(compact('documents'));
-
-}
+    {
+        $this->Authorization->SkipAuthorization();
+        $documents = $this->Documents->find('all');
+        $this->set(compact('documents'));
+    }
 
     public function index()
     {
@@ -219,5 +217,23 @@ class DocumentsController extends AppController
         $targetpath = WWW_ROOT . 'uploads' . DS . 'exemplarydocuments' . DS . $fileName;
         $exemplarydocument->moveTo($targetpath);
         return $fileName;
+    }
+
+    public function searchByTitle()
+    {
+        $this->Authorization->SkipAuthorization();
+        $searchTerm = $this->request->getQuery('search');
+        //recupération du terme de recherche depuis le formulaire
+        $documents = $this->Documents->find('all', [
+            'conditions' => ['title LIKE' => '%' . $searchTerm . '%'],
+            'contain' => ['DocumentCategories']
+        ]);
+        if ($documents->isEmpty()) {
+            $this->Flash->error(__('Aucun document trouvé avec ce titre.'));
+            return $this->redirect(['action' => 'views']);
+        }
+
+        $this->set('documents', $documents);
+        $this->render('search_results');
     }
 }

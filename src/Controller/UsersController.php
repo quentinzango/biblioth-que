@@ -216,25 +216,14 @@ class UsersController extends AppController
         if($this->request->is('post')){
             $data = $this->request->getData();
                         //envoi de l'email
-                        $mailer= new mailer('default');
-                        $mailer->setTo('quentinzango470@gmail.com')
+                        $mailer = new Mailer('default');
+                        $mailer->setTo('smtp.gmail.com')
                         ->setSubject('nouveau message de biblio')
                         ->setEmailFormat('html')
-                        ->setViewVars($data)
-                        ->viewBuilder()
-                        ->setTemplate('contact')
-                        ->setLayout('contact');
-
-
-                        if ($mailer->send()) {
+                        ->send($data['message']);
                             $this->Flash->success('Votre message a été envoyé avec succès');
                             return $this->redirect(['action' => 'contact']);
-                        } else {
-                            $this->Flash->error('Une erreur s\'est produite lors de l\'envoi du message');
-                        }
-                        } else {
-                            $this->Flash->error('Veuillez corriger les erreurs dans le formulaire');
-                        }
+        }
     }
 
 

@@ -102,8 +102,9 @@
                             </li>
                         </ul>
                         </div>
-                        <form class="d-flex" action="/DocumentController/index" methode="GET">
-                            <input class="form-control me-1" type="search" placeholder="Recherche..." aria-label="Search">
+                        <form class="d-flex" action="<?= $this->Url->build(['Controller' => 'Document', 'action' => 'searchByTitle']); ?>"
+                             methode="GET">
+                            <input class="form-control me-1" type="text" name="search" placeholder="Recherche..." aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Recherche</button>
                         </form>
                         <div class="navbar-nav ms-lg-auto flex-row justify-content-center py-3 py-lg-0 me-n2">
